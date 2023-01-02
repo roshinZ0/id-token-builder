@@ -1,8 +1,10 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Configuration;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Web;
+
 
 namespace B2CIdTokenBuilder
 {
@@ -26,6 +28,7 @@ namespace B2CIdTokenBuilder
                 }
 
                 X509Certificate2 certificate = certCollection[0];
+                
                 certStore.Close();
 
                 return new X509SigningCredentials(certificate, certAlgorithm);
@@ -34,8 +37,8 @@ namespace B2CIdTokenBuilder
 
         public static X509SigningCredentials JwtSigningCredentials => signingCredentials.Value;
 
-        public static string JwtIssuer => $"{GetCurrentUrl()?.Scheme}://{GetCurrentUrl()?.Authority}{HttpContext.Current?.Request?.ApplicationPath}";
-
+        //public static string JwtIssuer => $"{GetCurrentUrl()?.Scheme}://{GetCurrentUrl()?.Authority}{HttpContext.Current?.Request?.ApplicationPath}";
+        public static string JwtIssuer => "https://b2cidtokenbuilder20230102105510.azurewebsites.net/";
         public static int JwtExpirationDays => 7;
     }
 }
